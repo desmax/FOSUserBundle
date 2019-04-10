@@ -139,16 +139,6 @@ class FOSUserExtensionTest extends TestCase
         );
     }
 
-    public function testDisableProfile()
-    {
-        $this->configuration = new ContainerBuilder();
-        $loader = new FOSUserExtension();
-        $config = $this->getEmptyConfig();
-        $config['profile'] = false;
-        $loader->load(array($config), $this->configuration);
-        $this->assertNotHasDefinition('fos_user.profile.form.factory');
-    }
-
     /**
      * @dataProvider providerEmailsDisabledFeature
      */
@@ -232,7 +222,6 @@ class FOSUserExtensionTest extends TestCase
     {
         $this->createFullConfiguration();
 
-        $this->assertParameter('acme_my_profile', 'fos_user.profile.form.type');
         $this->assertParameter('acme_my_registration', 'fos_user.registration.form.type');
         $this->assertParameter('acme_my_resetting', 'fos_user.resetting.form.type');
     }
@@ -241,7 +230,6 @@ class FOSUserExtensionTest extends TestCase
     {
         $this->createEmptyConfiguration();
 
-        $this->assertParameter('fos_user_profile_form', 'fos_user.profile.form.name');
         $this->assertParameter('fos_user_registration_form', 'fos_user.registration.form.name');
         $this->assertParameter('fos_user_resetting_form', 'fos_user.resetting.form.name');
     }
@@ -250,7 +238,6 @@ class FOSUserExtensionTest extends TestCase
     {
         $this->createFullConfiguration();
 
-        $this->assertParameter('acme_profile_form', 'fos_user.profile.form.name');
         $this->assertParameter('acme_registration_form', 'fos_user.registration.form.name');
         $this->assertParameter('acme_resetting_form', 'fos_user.resetting.form.name');
     }
@@ -259,7 +246,6 @@ class FOSUserExtensionTest extends TestCase
     {
         $this->createEmptyConfiguration();
 
-        $this->assertHasDefinition('fos_user.profile.form.factory');
         $this->assertHasDefinition('fos_user.registration.form.factory');
         $this->assertHasDefinition('fos_user.resetting.form.factory');
     }
@@ -268,7 +254,6 @@ class FOSUserExtensionTest extends TestCase
     {
         $this->createFullConfiguration();
 
-        $this->assertHasDefinition('fos_user.profile.form.factory');
         $this->assertHasDefinition('fos_user.registration.form.factory');
         $this->assertHasDefinition('fos_user.resetting.form.factory');
     }
@@ -309,20 +294,6 @@ class FOSUserExtensionTest extends TestCase
         $this->createFullConfiguration();
 
         $this->assertAlias('acme_my.mailer', 'fos_user.mailer');
-    }
-
-    public function testUserLoadFlashesByDefault()
-    {
-        $this->createEmptyConfiguration();
-
-        $this->assertHasDefinition('fos_user.listener.flash');
-    }
-
-    public function testUserLoadFlashesCanBeDisabled()
-    {
-        $this->createFullConfiguration();
-
-        $this->assertNotHasDefinition('fos_user.listener.flash');
     }
 
     /**
@@ -412,17 +383,11 @@ EOF;
 db_driver: orm
 firewall_name: fos_user
 use_listener: true
-use_flash_notifications: false
 user_class: Acme\MyBundle\Entity\User
 model_manager_name: custom
 from_email:
     address: admin@acme.org
     sender_name: Acme Corp
-profile:
-    form:
-        type: acme_my_profile
-        name: acme_profile_form
-        validation_groups: [acme_profile]
 registration:
     confirmation:
         from_email:

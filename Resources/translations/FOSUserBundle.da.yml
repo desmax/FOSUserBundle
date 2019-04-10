@@ -5,26 +5,12 @@ security:
         remember_me: 'Husk mig'
         submit: 'Log ind'
 
-profile:
-    show:
-        email: E-mail
-    edit:
-        submit: Opdater
-    flash:
-        updated: 'Profilen er blevet opdateret.'
-
-change_password:
-    flash:
-        success: 'Adgangskoden er blevet opdateret.'
-
 registration:
     check_email: |
         En e-mail er blevet sendt til %email%. Den indeholder et aktiveringslink, du skal følge for at aktivere din konto.
     confirmed: 'Tillykke, din konto er nu aktiveret'
     back: 'Tilbage til foregående side.'
     submit: Registrer
-    flash:
-        user_created: 'Bruger er blevet oprettet.'
     email:
         subject: 'Velkommen!'
         message: |
@@ -48,8 +34,6 @@ resetting:
         submit: 'Nulstil adgangskode'
     reset:
         submit: 'Skift adgangskode'
-    flash:
-        success: 'Adgangskoden er blevet nulstillet.'
     email:
         subject: 'Velkommen!'
         message: |

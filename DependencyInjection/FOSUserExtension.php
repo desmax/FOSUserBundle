@@ -78,11 +78,6 @@ class FOSUserExtension extends Extension
             $container->removeDefinition('fos_user.listener.authentication');
         }
 
-        if ($config['use_flash_notifications']) {
-            $this->sessionNeeded = true;
-            $loader->load('flash_notifications.xml');
-        }
-
         $container->setAlias('fos_user.util.token_generator', $config['service']['token_generator']);
         $container->setAlias('fos_user.user_manager', new Alias($config['service']['user_manager'], true));
 
@@ -102,10 +97,6 @@ class FOSUserExtension extends Extension
                 'user_class' => 'fos_user.model.user.class',
             ),
         ));
-
-        if (!empty($config['profile'])) {
-            $this->loadProfile($config['profile'], $container, $loader);
-        }
 
         if (!empty($config['registration'])) {
             $this->loadRegistration($config['registration'], $container, $loader, $config['from_email']);
@@ -171,20 +162,6 @@ class FOSUserExtension extends Extension
                 }
             }
         }
-    }
-
-    /**
-     * @param array            $config
-     * @param ContainerBuilder $container
-     * @param XmlFileLoader    $loader
-     */
-    private function loadProfile(array $config, ContainerBuilder $container, XmlFileLoader $loader)
-    {
-        $loader->load('profile.xml');
-
-        $this->remapParametersNamespaces($config, $container, array(
-            'form' => 'fos_user.profile.form.%s',
-        ));
     }
 
     /**

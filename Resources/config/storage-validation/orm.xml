@@ -11,7 +11,6 @@
             <option name="message">fos_user.email.already_used</option>
             <option name="groups">
                 <value>Registration</value>
-                <value>Profile</value>
             </option>
         </constraint>
     </class>

@@ -31,9 +31,6 @@ class RoutingTest extends TestCase
         $loader = new XmlFileLoader($locator);
 
         $collection = new RouteCollection();
-        $subCollection = $loader->load(__DIR__.'/../../Resources/config/routing/profile.xml');
-        $subCollection->addPrefix('/profile');
-        $collection->addCollection($subCollection);
         $subCollection = $loader->load(__DIR__.'/../../Resources/config/routing/registration.xml');
         $subCollection->addPrefix('/register');
         $collection->addCollection($subCollection);
@@ -54,9 +51,6 @@ class RoutingTest extends TestCase
     public function loadRoutingProvider()
     {
         return array(
-            array('fos_user_profile_show', '/profile/', array('GET')),
-            array('fos_user_profile_edit', '/profile/edit', array('GET', 'POST')),
-
             array('fos_user_registration_register', '/register/', array('GET', 'POST')),
             array('fos_user_registration_check_email', '/register/check-email', array('GET')),
             array('fos_user_registration_confirm', '/register/confirm/{token}', array('GET')),

@@ -57,7 +57,6 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('model_manager_name')->defaultNull()->end()
                 ->booleanNode('use_authentication_listener')->defaultTrue()->end()
                 ->booleanNode('use_listener')->defaultTrue()->end()
-                ->booleanNode('use_flash_notifications')->defaultTrue()->end()
                 ->arrayNode('from_email')
                     ->isRequired()
                     ->children()
@@ -74,40 +73,11 @@ class Configuration implements ConfigurationInterface
                 ->thenInvalid('You need to specify your own user manager service when using the "custom" driver.')
             ->end();
 
-        $this->addProfileSection($rootNode);
         $this->addRegistrationSection($rootNode);
         $this->addResettingSection($rootNode);
         $this->addServiceSection($rootNode);
 
         return $treeBuilder;
-    }
-
-    /**
-     * @param ArrayNodeDefinition $node
-     */
-    private function addProfileSection(ArrayNodeDefinition $node)
-    {
-        $node
-            ->children()
-                ->arrayNode('profile')
-                    ->addDefaultsIfNotSet()
-                    ->canBeUnset()
-                    ->children()
-                        ->arrayNode('form')
-                            ->addDefaultsIfNotSet()
-                            ->fixXmlConfig('validation_group')
-                            ->children()
-                                ->scalarNode('type')->defaultValue(Type\ProfileFormType::class)->end()
-                                ->scalarNode('name')->defaultValue('fos_user_profile_form')->end()
-                                ->arrayNode('validation_groups')
-                                    ->prototype('scalar')->end()
-                                    ->defaultValue(array('Profile', 'Default'))
-                                ->end()
-                            ->end()
-                        ->end()
-                    ->end()
-                ->end()
-            ->end();
     }
 
     /**

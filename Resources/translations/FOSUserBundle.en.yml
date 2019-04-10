@@ -4,24 +4,12 @@ security:
         password: Password
         remember_me: 'Remember me'
         submit: 'Log in'
-profile:
-    show:
-        email: Email
-    edit:
-        submit: Update
-    flash:
-        updated: 'The profile has been updated.'
-change_password:
-    flash:
-        success: 'The password has been changed.'
 registration:
     check_email: |
         An email has been sent to %email%. It contains an activation link you must click to activate your account.
     confirmed: 'Congrats, your account is now activated.'
     back: 'Back to the originating page.'
     submit: Register
-    flash:
-        user_created: 'The user has been created successfully.'
     email:
         subject: 'Welcome!'
         message: |
@@ -44,8 +32,6 @@ resetting:
         submit: 'Reset password'
     reset:
         submit: 'Change password'
-    flash:
-        success: 'The password has been reset successfully.'
     email:
         subject: 'Reset Password'
         message: |
