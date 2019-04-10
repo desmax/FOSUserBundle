@@ -17,11 +17,10 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ORM\EntityManager;
 use FOS\UserBundle\Model\UserInterface;
-use FOS\UserBundle\Util\CanonicalFieldsUpdater;
 use FOS\UserBundle\Util\PasswordUpdaterInterface;
 
 /**
- * Doctrine listener updating the canonical username and password fields.
+ * Doctrine listener updating the password fields.
  *
  * @author Christophe Coevoet <stof@notk.org>
  * @author David Buchmann <mail@davidbu.ch>
@@ -29,12 +28,10 @@ use FOS\UserBundle\Util\PasswordUpdaterInterface;
 class UserListener implements EventSubscriber
 {
     private $passwordUpdater;
-    private $canonicalFieldsUpdater;
 
-    public function __construct(PasswordUpdaterInterface $passwordUpdater, CanonicalFieldsUpdater $canonicalFieldsUpdater)
+    public function __construct(PasswordUpdaterInterface $passwordUpdater)
     {
         $this->passwordUpdater = $passwordUpdater;
-        $this->canonicalFieldsUpdater = $canonicalFieldsUpdater;
     }
 
     /**
@@ -82,7 +79,6 @@ class UserListener implements EventSubscriber
      */
     private function updateUserFields(UserInterface $user)
     {
-        $this->canonicalFieldsUpdater->updateCanonicalFields($user);
         $this->passwordUpdater->hashPassword($user);
     }
 

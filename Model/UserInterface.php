@@ -31,31 +31,6 @@ interface FosUserInterface extends \Serializable
     public function getId();
 
     /**
-     * Sets the username.
-     *
-     * @param string $username
-     *
-     * @return static
-     */
-    public function setUsername($username);
-
-    /**
-     * Gets the canonical username in search and sort queries.
-     *
-     * @return string
-     */
-    public function getUsernameCanonical();
-
-    /**
-     * Sets the canonical username.
-     *
-     * @param string $usernameCanonical
-     *
-     * @return static
-     */
-    public function setUsernameCanonical($usernameCanonical);
-
-    /**
      * @param string|null $salt
      *
      * @return static
@@ -77,22 +52,6 @@ interface FosUserInterface extends \Serializable
      * @return static
      */
     public function setEmail($email);
-
-    /**
-     * Gets the canonical email in search and sort queries.
-     *
-     * @return string
-     */
-    public function getEmailCanonical();
-
-    /**
-     * Sets the canonical email.
-     *
-     * @param string $emailCanonical
-     *
-     * @return static
-     */
-    public function setEmailCanonical($emailCanonical);
 
     /**
      * Gets the plain password.
@@ -229,42 +188,6 @@ interface FosUserInterface extends \Serializable
     public function removeRole($role);
 
     /**
-     * Checks whether the user's account has expired.
-     *
-     * Internally, if this method returns false, the authentication system
-     * will throw an AccountExpiredException and prevent login.
-     *
-     * @return bool true if the user's account is non expired, false otherwise
-     *
-     * @see AccountExpiredException
-     */
-    public function isAccountNonExpired();
-
-    /**
-     * Checks whether the user is locked.
-     *
-     * Internally, if this method returns false, the authentication system
-     * will throw a LockedException and prevent login.
-     *
-     * @return bool true if the user is not locked, false otherwise
-     *
-     * @see LockedException
-     */
-    public function isAccountNonLocked();
-
-    /**
-     * Checks whether the user's credentials (password) has expired.
-     *
-     * Internally, if this method returns false, the authentication system
-     * will throw a CredentialsExpiredException and prevent login.
-     *
-     * @return bool true if the user's credentials are non expired, false otherwise
-     *
-     * @see CredentialsExpiredException
-     */
-    public function isCredentialsNonExpired();
-
-    /**
      * Checks whether the user is enabled.
      *
      * Internally, if this method returns false, the authentication system
@@ -277,18 +200,7 @@ interface FosUserInterface extends \Serializable
     public function isEnabled();
 }
 
-// This is required to support apps that explicitly check if a user is an instance of AdvancedUserInterface
-if (interface_exists('\Symfony\Component\Security\Core\User\AdvancedUserInterface')) {
-    /**
-     * @author Thibault Duplessis <thibault.duplessis@gmail.com>
-     * @author Johannes M. Schmitt <schmittjoh@gmail.com>
-     *
-     * @deprecated since Symfony 4.1. Remove in Nov 2023 (End of support for security fixes SF 4.4)
-     */
-    interface UserInterface extends FosUserInterface, \Symfony\Component\Security\Core\User\AdvancedUserInterface
-    {
-    }
-} else {
+
     /**
      * @author Thibault Duplessis <thibault.duplessis@gmail.com>
      * @author Johannes M. Schmitt <schmittjoh@gmail.com>
@@ -297,4 +209,4 @@ if (interface_exists('\Symfony\Component\Security\Core\User\AdvancedUserInterfac
     interface UserInterface extends FosUserInterface, BaseUserInterface, EquatableInterface
     {
     }
-}
+

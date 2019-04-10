@@ -22,14 +22,12 @@ class ProfileFormTypeTest extends ValidatorExtensionTypeTestCase
 
         $form = $this->factory->create(ProfileFormType::class, $user);
         $formData = array(
-            'username' => 'bar',
             'email' => 'john@doe.com',
         );
         $form->submit($formData);
 
         $this->assertTrue($form->isSynchronized());
         $this->assertSame($user, $form->getData());
-        $this->assertSame('bar', $user->getUsername());
         $this->assertSame('john@doe.com', $user->getEmail());
     }
 

@@ -11,31 +11,31 @@
 
 namespace FOS\UserBundle\Form\Type;
 
-use FOS\UserBundle\Form\DataTransformer\UserToUsernameTransformer;
+use FOS\UserBundle\Form\DataTransformer\UserToEmailTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Form type for representing a UserInterface instance by its username string.
+ * Form type for representing a UserInterface instance by its email string.
  *
  * @author Thibault Duplessis <thibault.duplessis@gmail.com>
  */
-class UsernameFormType extends AbstractType
+class EmailFormType extends AbstractType
 {
     /**
-     * @var UserToUsernameTransformer
+     * @var UserToEmailTransformer
      */
-    protected $usernameTransformer;
+    protected $emailTransformer;
 
     /**
      * Constructor.
      *
-     * @param UserToUsernameTransformer $usernameTransformer
+     * @param UserToEmailTransformer $emailTransformer
      */
-    public function __construct(UserToUsernameTransformer $usernameTransformer)
+    public function __construct(UserToEmailTransformer $emailTransformer)
     {
-        $this->usernameTransformer = $usernameTransformer;
+        $this->emailTransformer = $emailTransformer;
     }
 
     /**
@@ -43,7 +43,7 @@ class UsernameFormType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addModelTransformer($this->usernameTransformer);
+        $builder->addModelTransformer($this->emailTransformer);
     }
 
     /**
@@ -54,21 +54,11 @@ class UsernameFormType extends AbstractType
         return TextType::class;
     }
 
-    // BC for SF < 3.0
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->getBlockPrefix();
-    }
-
     /**
      * {@inheritdoc}
      */
     public function getBlockPrefix()
     {
-        return 'fos_user_username';
+        return 'fos_user_email';
     }
 }

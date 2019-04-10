@@ -58,7 +58,6 @@ class Configuration implements ConfigurationInterface
                 ->booleanNode('use_authentication_listener')->defaultTrue()->end()
                 ->booleanNode('use_listener')->defaultTrue()->end()
                 ->booleanNode('use_flash_notifications')->defaultTrue()->end()
-                ->booleanNode('use_username_form_type')->defaultTrue()->end()
                 ->arrayNode('from_email')
                     ->isRequired()
                     ->children()
@@ -73,12 +72,6 @@ class Configuration implements ConfigurationInterface
                     return 'custom' === $v['db_driver'] && 'fos_user.user_manager.default' === $v['service']['user_manager'];
                 })
                 ->thenInvalid('You need to specify your own user manager service when using the "custom" driver.')
-            ->end()
-            ->validate()
-                ->ifTrue(function ($v) {
-                    return 'custom' === $v['db_driver'] && !empty($v['group']) && 'fos_user.group_manager.default' === $v['group']['group_manager'];
-                })
-                ->thenInvalid('You need to specify your own group manager service when using the "custom" driver.')
             ->end();
 
         $this->addProfileSection($rootNode);
@@ -86,7 +79,6 @@ class Configuration implements ConfigurationInterface
         $this->addRegistrationSection($rootNode);
         $this->addResettingSection($rootNode);
         $this->addServiceSection($rootNode);
-        $this->addGroupSection($rootNode);
 
         return $treeBuilder;
     }
@@ -241,39 +233,8 @@ class Configuration implements ConfigurationInterface
                     ->addDefaultsIfNotSet()
                         ->children()
                             ->scalarNode('mailer')->defaultValue('fos_user.mailer.default')->end()
-                            ->scalarNode('email_canonicalizer')->defaultValue('fos_user.util.canonicalizer.default')->end()
                             ->scalarNode('token_generator')->defaultValue('fos_user.util.token_generator.default')->end()
-                            ->scalarNode('username_canonicalizer')->defaultValue('fos_user.util.canonicalizer.default')->end()
                             ->scalarNode('user_manager')->defaultValue('fos_user.user_manager.default')->end()
-                        ->end()
-                    ->end()
-                ->end()
-            ->end();
-    }
-
-    /**
-     * @param ArrayNodeDefinition $node
-     */
-    private function addGroupSection(ArrayNodeDefinition $node)
-    {
-        $node
-            ->children()
-                ->arrayNode('group')
-                    ->canBeUnset()
-                    ->children()
-                        ->scalarNode('group_class')->isRequired()->cannotBeEmpty()->end()
-                        ->scalarNode('group_manager')->defaultValue('fos_user.group_manager.default')->end()
-                        ->arrayNode('form')
-                            ->addDefaultsIfNotSet()
-                            ->fixXmlConfig('validation_group')
-                            ->children()
-                                ->scalarNode('type')->defaultValue(Type\GroupFormType::class)->end()
-                                ->scalarNode('name')->defaultValue('fos_user_group_form')->end()
-                                ->arrayNode('validation_groups')
-                                    ->prototype('scalar')->end()
-                                    ->defaultValue(array('Registration', 'Default'))
-                                ->end()
-                            ->end()
                         ->end()
                     ->end()
                 ->end()

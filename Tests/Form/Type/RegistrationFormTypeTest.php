@@ -22,7 +22,6 @@ class RegistrationFormTypeTest extends ValidatorExtensionTypeTestCase
 
         $form = $this->factory->create(RegistrationFormType::class, $user);
         $formData = array(
-            'username' => 'bar',
             'email' => 'john@doe.com',
             'plainPassword' => array(
                 'first' => 'test',
@@ -33,7 +32,6 @@ class RegistrationFormTypeTest extends ValidatorExtensionTypeTestCase
 
         $this->assertTrue($form->isSynchronized());
         $this->assertSame($user, $form->getData());
-        $this->assertSame('bar', $user->getUsername());
         $this->assertSame('john@doe.com', $user->getEmail());
         $this->assertSame('test', $user->getPlainPassword());
     }

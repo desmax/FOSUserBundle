@@ -33,9 +33,6 @@ class UserManagerTest extends TestCase
         }
 
         $passwordUpdater = $this->getMockBuilder('FOS\UserBundle\Util\PasswordUpdaterInterface')->getMock();
-        $fieldsUpdater = $this->getMockBuilder('FOS\UserBundle\Util\CanonicalFieldsUpdater')
-            ->disableOriginalConstructor()
-            ->getMock();
         $class = $this->getMockBuilder('Doctrine\Common\Persistence\Mapping\ClassMetadata')->getMock();
         $this->om = $this->getMockBuilder('Doctrine\Common\Persistence\ObjectManager')->getMock();
         $this->repository = $this->getMockBuilder('Doctrine\Common\Persistence\ObjectRepository')->getMock();
@@ -52,7 +49,7 @@ class UserManagerTest extends TestCase
             ->method('getName')
             ->will($this->returnValue(static::USER_CLASS));
 
-        $this->userManager = new UserManager($passwordUpdater, $fieldsUpdater, $this->om, static::USER_CLASS);
+        $this->userManager = new UserManager($passwordUpdater, $this->om, static::USER_CLASS);
     }
 
     public function testDeleteUser()

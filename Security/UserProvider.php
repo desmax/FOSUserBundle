@@ -38,12 +38,12 @@ class UserProvider implements UserProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function loadUserByUsername($username)
+    public function loadUserByUsername($email)
     {
-        $user = $this->findUser($username);
+        $user = $this->findUser($email);
 
         if (!$user) {
-            throw new UsernameNotFoundException(sprintf('Username "%s" does not exist.', $username));
+            throw new UsernameNotFoundException(sprintf('Email "%s" does not exist.', $email));
         }
 
         return $user;
@@ -80,16 +80,16 @@ class UserProvider implements UserProviderInterface
     }
 
     /**
-     * Finds a user by username.
+     * Finds a user by email.
      *
      * This method is meant to be an extension point for child classes.
      *
-     * @param string $username
+     * @param string $email
      *
      * @return UserInterface|null
      */
-    protected function findUser($username)
+    protected function findUser($email)
     {
-        return $this->userManager->findUserByUsername($username);
+        return $this->userManager->findUserByEmail($email);
     }
 }

@@ -46,7 +46,7 @@ class EmailProviderTest extends TestCase
     /**
      * @expectedException \Symfony\Component\Security\Core\Exception\UsernameNotFoundException
      */
-    public function testLoadUserByInvalidUsername()
+    public function testLoadUserByInvalidEmail()
     {
         $this->userManager->expects($this->once())
             ->method('findUserByEmail')

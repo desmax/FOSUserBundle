@@ -21,7 +21,7 @@ use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
  * @author Thibault Duplessis <thibault.duplessis@gmail.com>
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-abstract class User implements UserInterface, GroupableInterface
+abstract class User implements UserInterface
 {
     /**
      * @var mixed
@@ -31,22 +31,7 @@ abstract class User implements UserInterface, GroupableInterface
     /**
      * @var string
      */
-    protected $username;
-
-    /**
-     * @var string
-     */
-    protected $usernameCanonical;
-
-    /**
-     * @var string
-     */
     protected $email;
-
-    /**
-     * @var string
-     */
-    protected $emailCanonical;
 
     /**
      * @var bool
@@ -92,11 +77,6 @@ abstract class User implements UserInterface, GroupableInterface
     protected $passwordRequestedAt;
 
     /**
-     * @var GroupInterface[]|Collection
-     */
-    protected $groups;
-
-    /**
      * @var array
      */
     protected $roles;
@@ -115,7 +95,7 @@ abstract class User implements UserInterface, GroupableInterface
      */
     public function __toString()
     {
-        return (string) $this->getUsername();
+        return (string) $this->getEmail();
     }
 
     /**
@@ -143,12 +123,9 @@ abstract class User implements UserInterface, GroupableInterface
         return serialize(array(
             $this->password,
             $this->salt,
-            $this->usernameCanonical,
-            $this->username,
             $this->enabled,
             $this->id,
             $this->email,
-            $this->emailCanonical,
         ));
     }
 
@@ -172,12 +149,9 @@ abstract class User implements UserInterface, GroupableInterface
         list(
             $this->password,
             $this->salt,
-            $this->usernameCanonical,
-            $this->username,
             $this->enabled,
             $this->id,
             $this->email,
-            $this->emailCanonical
         ) = $data;
     }
 
@@ -202,15 +176,7 @@ abstract class User implements UserInterface, GroupableInterface
      */
     public function getUsername()
     {
-        return $this->username;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getUsernameCanonical()
-    {
-        return $this->usernameCanonical;
+        return $this->getEmail();
     }
 
     /**
@@ -227,14 +193,6 @@ abstract class User implements UserInterface, GroupableInterface
     public function getEmail()
     {
         return $this->email;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getEmailCanonical()
-    {
-        return $this->emailCanonical;
     }
 
     /**
@@ -278,10 +236,6 @@ abstract class User implements UserInterface, GroupableInterface
     {
         $roles = $this->roles;
 
-        foreach ($this->getGroups() as $group) {
-            $roles = array_merge($roles, $group->getRoles());
-        }
-
         // we need to make sure to have at least one role
         $roles[] = static::ROLE_DEFAULT;
 
@@ -294,30 +248,6 @@ abstract class User implements UserInterface, GroupableInterface
     public function hasRole($role)
     {
         return in_array(strtoupper($role), $this->getRoles(), true);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isAccountNonExpired()
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isAccountNonLocked()
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isCredentialsNonExpired()
-    {
-        return true;
     }
 
     public function isEnabled()
@@ -349,26 +279,6 @@ abstract class User implements UserInterface, GroupableInterface
     /**
      * {@inheritdoc}
      */
-    public function setUsername($username)
-    {
-        $this->username = $username;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setUsernameCanonical($usernameCanonical)
-    {
-        $this->usernameCanonical = $usernameCanonical;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function setSalt($salt)
     {
         $this->salt = $salt;
@@ -382,16 +292,6 @@ abstract class User implements UserInterface, GroupableInterface
     public function setEmail($email)
     {
         $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setEmailCanonical($emailCanonical)
-    {
-        $this->emailCanonical = $emailCanonical;
 
         return $this;
     }
@@ -506,59 +406,6 @@ abstract class User implements UserInterface, GroupableInterface
     /**
      * {@inheritdoc}
      */
-    public function getGroups()
-    {
-        return $this->groups ?: $this->groups = new ArrayCollection();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getGroupNames()
-    {
-        $names = array();
-        foreach ($this->getGroups() as $group) {
-            $names[] = $group->getName();
-        }
-
-        return $names;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function hasGroup($name)
-    {
-        return in_array($name, $this->getGroupNames());
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function addGroup(GroupInterface $group)
-    {
-        if (!$this->getGroups()->contains($group)) {
-            $this->getGroups()->add($group);
-        }
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function removeGroup(GroupInterface $group)
-    {
-        if ($this->getGroups()->contains($group)) {
-            $this->getGroups()->removeElement($group);
-        }
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function isEqualTo(BaseUserInterface $user)
     {
         if (!$user instanceof self) {
@@ -573,7 +420,7 @@ abstract class User implements UserInterface, GroupableInterface
             return false;
         }
 
-        if ($this->username !== $user->getUsername()) {
+        if ($this->email !== $user->getEmail()) {
             return false;
         }
 

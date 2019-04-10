@@ -80,9 +80,9 @@ class ResettingController extends Controller
      */
     public function sendEmailAction(Request $request)
     {
-        $username = $request->request->get('username');
+        $email = $request->request->get('email');
 
-        $user = $this->userManager->findUserByUsernameOrEmail($username);
+        $user = $this->userManager->findUserByEmail($email);
 
         $event = new GetResponseNullableUserEvent($user, $request);
         $this->eventDispatcher->dispatch(FOSUserEvents::RESETTING_SEND_EMAIL_INITIALIZE, $event);
@@ -122,7 +122,7 @@ class ResettingController extends Controller
             }
         }
 
-        return new RedirectResponse($this->generateUrl('fos_user_resetting_check_email', array('username' => $username)));
+        return new RedirectResponse($this->generateUrl('fos_user_resetting_check_email', array('email' => $email)));
     }
 
     /**
@@ -134,9 +134,9 @@ class ResettingController extends Controller
      */
     public function checkEmailAction(Request $request)
     {
-        $username = $request->query->get('username');
+        $email = $request->query->get('email');
 
-        if (empty($username)) {
+        if (empty($email)) {
             // the user does not come from the sendEmail action
             return new RedirectResponse($this->generateUrl('fos_user_resetting_request'));
         }

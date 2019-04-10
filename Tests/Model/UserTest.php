@@ -16,14 +16,6 @@ use PHPUnit\Framework\TestCase;
 
 class UserTest extends TestCase
 {
-    public function testUsername()
-    {
-        $user = $this->getUser();
-        $this->assertNull($user->getUsername());
-
-        $user->setUsername('tony');
-        $this->assertSame('tony', $user->getUsername());
-    }
 
     public function testEmail()
     {
@@ -94,7 +86,7 @@ class UserTest extends TestCase
         $this->assertFalse($user->isEqualTo($user3));
 
         $user4 = $this->getUser();
-        $user4->setUsername('f00b4r');
+        $user4->setEmail('f00b4r@email.com');
         $this->assertFalse($user->isEqualTo($user4));
     }
 

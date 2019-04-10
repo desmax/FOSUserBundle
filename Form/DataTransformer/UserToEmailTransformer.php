@@ -17,11 +17,11 @@ use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 
 /**
- * Transforms between a UserInterface instance and a username string.
+ * Transforms between a UserInterface instance and a email string.
  *
  * @author Thibault Duplessis <thibault.duplessis@gmail.com>
  */
-class UserToUsernameTransformer implements DataTransformerInterface
+class UserToEmailTransformer implements DataTransformerInterface
 {
     /**
      * @var UserManagerInterface
@@ -29,7 +29,7 @@ class UserToUsernameTransformer implements DataTransformerInterface
     protected $userManager;
 
     /**
-     * UserToUsernameTransformer constructor.
+     * UserToEmailTransformer constructor.
      *
      * @param UserManagerInterface $userManager
      */
@@ -39,11 +39,11 @@ class UserToUsernameTransformer implements DataTransformerInterface
     }
 
     /**
-     * Transforms a UserInterface instance into a username string.
+     * Transforms a UserInterface instance into a email string.
      *
      * @param UserInterface|null $value UserInterface instance
      *
-     * @return string|null Username
+     * @return string|null Email
      *
      * @throws UnexpectedTypeException if the given value is not a UserInterface instance
      */
@@ -57,13 +57,13 @@ class UserToUsernameTransformer implements DataTransformerInterface
             throw new UnexpectedTypeException($value, 'FOS\UserBundle\Model\UserInterface');
         }
 
-        return $value->getUsername();
+        return $value->getEmail();
     }
 
     /**
-     * Transforms a username string into a UserInterface instance.
+     * Transforms a email string into a UserInterface instance.
      *
-     * @param string $value Username
+     * @param string $value Email
      *
      * @return UserInterface the corresponding UserInterface instance
      *
@@ -79,6 +79,6 @@ class UserToUsernameTransformer implements DataTransformerInterface
             throw new UnexpectedTypeException($value, 'string');
         }
 
-        return $this->userManager->findUserByUsername($value);
+        return $this->userManager->findUserByEmail($value);
     }
 }

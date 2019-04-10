@@ -50,15 +50,6 @@ interface UserManagerInterface
     public function findUserBy(array $criteria);
 
     /**
-     * Find a user by its username.
-     *
-     * @param string $username
-     *
-     * @return UserInterface|null
-     */
-    public function findUserByUsername($username);
-
-    /**
      * Finds a user by its email.
      *
      * @param string $email
@@ -66,15 +57,6 @@ interface UserManagerInterface
      * @return UserInterface|null
      */
     public function findUserByEmail($email);
-
-    /**
-     * Finds a user by its username or email.
-     *
-     * @param string $usernameOrEmail
-     *
-     * @return UserInterface|null
-     */
-    public function findUserByUsernameOrEmail($usernameOrEmail);
 
     /**
      * Finds a user by its confirmationToken.
@@ -113,13 +95,6 @@ interface UserManagerInterface
      * @param bool          $andFlush
      */
     public function updateUser(UserInterface $user, $andFlush = true);
-
-    /**
-     * Updates the canonical username and email fields for a user.
-     *
-     * @param UserInterface $user
-     */
-    public function updateCanonicalFields(UserInterface $user);
 
     /**
      * Updates a user password if a plain password is set.

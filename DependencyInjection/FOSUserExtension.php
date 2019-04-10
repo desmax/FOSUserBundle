@@ -70,7 +70,7 @@ class FOSUserExtension extends Extension
             $definition->setFactory(array(new Reference('fos_user.doctrine_registry'), 'getManager'));
         }
 
-        foreach (array('validator', 'security', 'util', 'mailer', 'listeners', 'commands') as $basename) {
+        foreach (array('security', 'util', 'mailer', 'listeners') as $basename) {
             $loader->load(sprintf('%s.xml', $basename));
         }
 
@@ -83,8 +83,6 @@ class FOSUserExtension extends Extension
             $loader->load('flash_notifications.xml');
         }
 
-        $container->setAlias('fos_user.util.email_canonicalizer', $config['service']['email_canonicalizer']);
-        $container->setAlias('fos_user.util.username_canonicalizer', $config['service']['username_canonicalizer']);
         $container->setAlias('fos_user.util.token_generator', $config['service']['token_generator']);
         $container->setAlias('fos_user.user_manager', new Alias($config['service']['user_manager'], true));
 
@@ -94,10 +92,6 @@ class FOSUserExtension extends Extension
             if (isset(self::$doctrineDrivers[$config['db_driver']]['listener_class'])) {
                 $listenerDefinition->setClass(self::$doctrineDrivers[$config['db_driver']]['listener_class']);
             }
-        }
-
-        if ($config['use_username_form_type']) {
-            $loader->load('username_form_type.xml');
         }
 
         $this->remapParametersNamespaces($config, $container, array(
@@ -123,10 +117,6 @@ class FOSUserExtension extends Extension
 
         if (!empty($config['resetting'])) {
             $this->loadResetting($config['resetting'], $container, $loader, $config['from_email']);
-        }
-
-        if (!empty($config['group'])) {
-            $this->loadGroups($config['group'], $container, $loader, $config['db_driver']);
         }
 
         if ($this->mailerNeeded) {
@@ -269,34 +259,6 @@ class FOSUserExtension extends Extension
             ),
             'email' => 'fos_user.resetting.email.%s',
             'form' => 'fos_user.resetting.form.%s',
-        ));
-    }
-
-    /**
-     * @param array            $config
-     * @param ContainerBuilder $container
-     * @param XmlFileLoader    $loader
-     * @param string           $dbDriver
-     */
-    private function loadGroups(array $config, ContainerBuilder $container, XmlFileLoader $loader, $dbDriver)
-    {
-        $loader->load('group.xml');
-        if ('custom' !== $dbDriver) {
-            if (isset(self::$doctrineDrivers[$dbDriver])) {
-                $loader->load('doctrine_group.xml');
-            } else {
-                $loader->load(sprintf('%s_group.xml', $dbDriver));
-            }
-        }
-
-        $container->setAlias('fos_user.group_manager', new Alias($config['group_manager'], true));
-        $container->setAlias('FOS\UserBundle\Model\GroupManagerInterface', new Alias('fos_user.group_manager', false));
-
-        $this->remapParametersNamespaces($config, $container, array(
-            '' => array(
-                'group_class' => 'fos_user.model.group.class',
-            ),
-            'form' => 'fos_user.group.form.%s',
         ));
     }
 }

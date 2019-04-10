@@ -45,7 +45,7 @@ class SecurityController extends Controller
         $session = $request->getSession();
 
         $authErrorKey = Security::AUTHENTICATION_ERROR;
-        $lastUsernameKey = Security::LAST_USERNAME;
+        $lastEmailKey = Security::LAST_USERNAME;
 
         // get the error if any (works with forward and redirect -- see below)
         if ($request->attributes->has($authErrorKey)) {
@@ -61,15 +61,15 @@ class SecurityController extends Controller
             $error = null; // The value does not come from the security component.
         }
 
-        // last username entered by the user
-        $lastUsername = (null === $session) ? '' : $session->get($lastUsernameKey);
+        // last email entered by the user
+        $lastEmail = (null === $session) ? '' : $session->get($lastEmailKey);
 
         $csrfToken = $this->tokenManager
             ? $this->tokenManager->getToken('authenticate')->getValue()
             : null;
 
         return $this->renderLogin(array(
-            'last_username' => $lastUsername,
+            'last_email' => $lastEmail,
             'error' => $error,
             'csrf_token' => $csrfToken,
         ));

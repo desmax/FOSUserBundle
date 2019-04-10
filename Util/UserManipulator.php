@@ -60,7 +60,6 @@ class UserManipulator
     /**
      * Creates a user and returns it.
      *
-     * @param string $username
      * @param string $password
      * @param string $email
      * @param bool   $active
@@ -68,10 +67,9 @@ class UserManipulator
      *
      * @return \FOS\UserBundle\Model\UserInterface
      */
-    public function create($username, $password, $email, $active, $superadmin)
+    public function create($password, $email, $active, $superadmin)
     {
         $user = $this->userManager->createUser();
-        $user->setUsername($username);
         $user->setEmail($email);
         $user->setPlainPassword($password);
         $user->setEnabled((bool) $active);
@@ -87,11 +85,11 @@ class UserManipulator
     /**
      * Activates the given user.
      *
-     * @param string $username
+     * @param string $email
      */
-    public function activate($username)
+    public function activate($email)
     {
-        $user = $this->findUserByUsernameOrThrowException($username);
+        $user = $this->findUserByEmailOrThrowException($email);
         $user->setEnabled(true);
         $this->userManager->updateUser($user);
 
@@ -102,11 +100,11 @@ class UserManipulator
     /**
      * Deactivates the given user.
      *
-     * @param string $username
+     * @param string $email
      */
-    public function deactivate($username)
+    public function deactivate($email)
     {
-        $user = $this->findUserByUsernameOrThrowException($username);
+        $user = $this->findUserByEmailOrThrowException($email);
         $user->setEnabled(false);
         $this->userManager->updateUser($user);
 
@@ -117,12 +115,12 @@ class UserManipulator
     /**
      * Changes the password for the given user.
      *
-     * @param string $username
+     * @param string $email
      * @param string $password
      */
-    public function changePassword($username, $password)
+    public function changePassword($email, $password)
     {
-        $user = $this->findUserByUsernameOrThrowException($username);
+        $user = $this->findUserByEmailOrThrowException($email);
         $user->setPlainPassword($password);
         $this->userManager->updateUser($user);
 
@@ -133,11 +131,11 @@ class UserManipulator
     /**
      * Promotes the given user.
      *
-     * @param string $username
+     * @param string $email
      */
-    public function promote($username)
+    public function promote($email)
     {
-        $user = $this->findUserByUsernameOrThrowException($username);
+        $user = $this->findUserByEmailOrThrowException($email);
         $user->setSuperAdmin(true);
         $this->userManager->updateUser($user);
 
@@ -148,11 +146,11 @@ class UserManipulator
     /**
      * Demotes the given user.
      *
-     * @param string $username
+     * @param string $email
      */
-    public function demote($username)
+    public function demote($email)
     {
-        $user = $this->findUserByUsernameOrThrowException($username);
+        $user = $this->findUserByEmailOrThrowException($email);
         $user->setSuperAdmin(false);
         $this->userManager->updateUser($user);
 
@@ -163,14 +161,14 @@ class UserManipulator
     /**
      * Adds role to the given user.
      *
-     * @param string $username
+     * @param string $email
      * @param string $role
      *
      * @return bool true if role was added, false if user already had the role
      */
-    public function addRole($username, $role)
+    public function addRole($email, $role)
     {
-        $user = $this->findUserByUsernameOrThrowException($username);
+        $user = $this->findUserByEmailOrThrowException($email);
         if ($user->hasRole($role)) {
             return false;
         }
@@ -183,14 +181,14 @@ class UserManipulator
     /**
      * Removes role from the given user.
      *
-     * @param string $username
+     * @param string $email
      * @param string $role
      *
      * @return bool true if role was removed, false if user didn't have the role
      */
-    public function removeRole($username, $role)
+    public function removeRole($email, $role)
     {
-        $user = $this->findUserByUsernameOrThrowException($username);
+        $user = $this->findUserByEmailOrThrowException($email);
         if (!$user->hasRole($role)) {
             return false;
         }
@@ -201,20 +199,20 @@ class UserManipulator
     }
 
     /**
-     * Finds a user by his username and throws an exception if we can't find it.
+     * Finds a user by his email and throws an exception if we can't find it.
      *
-     * @param string $username
+     * @param string $email
      *
      * @throws \InvalidArgumentException When user does not exist
      *
      * @return UserInterface
      */
-    private function findUserByUsernameOrThrowException($username)
+    private function findUserByEmailOrThrowException($email)
     {
-        $user = $this->userManager->findUserByUsername($username);
+        $user = $this->userManager->findUserByEmail($email);
 
         if (!$user) {
-            throw new \InvalidArgumentException(sprintf('User identified by "%s" username does not exist.', $username));
+            throw new \InvalidArgumentException(sprintf('User identified by "%s" email does not exist.', $email));
         }
 
         return $user;
