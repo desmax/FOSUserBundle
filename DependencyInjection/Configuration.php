@@ -39,7 +39,7 @@ class Configuration implements ConfigurationInterface
             $rootNode = $treeBuilder->root('fos_user');
         }
 
-        $supportedDrivers = array('orm', 'mongodb', 'couchdb', 'custom');
+        $supportedDrivers = array('orm', 'custom');
 
         $rootNode
             ->children()
