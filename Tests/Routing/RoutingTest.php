@@ -31,7 +31,6 @@ class RoutingTest extends TestCase
         $loader = new XmlFileLoader($locator);
 
         $collection = new RouteCollection();
-        $collection->addCollection($loader->load(__DIR__.'/../../Resources/config/routing/change_password.xml'));
         $subCollection = $loader->load(__DIR__.'/../../Resources/config/routing/profile.xml');
         $subCollection->addPrefix('/profile');
         $collection->addCollection($subCollection);
@@ -55,8 +54,6 @@ class RoutingTest extends TestCase
     public function loadRoutingProvider()
     {
         return array(
-            array('fos_user_change_password', '/change-password', array('GET', 'POST')),
-
             array('fos_user_profile_show', '/profile/', array('GET')),
             array('fos_user_profile_edit', '/profile/edit', array('GET', 'POST')),
 

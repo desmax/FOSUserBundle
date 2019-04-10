@@ -75,7 +75,6 @@ class Configuration implements ConfigurationInterface
             ->end();
 
         $this->addProfileSection($rootNode);
-        $this->addChangePasswordSection($rootNode);
         $this->addRegistrationSection($rootNode);
         $this->addResettingSection($rootNode);
         $this->addServiceSection($rootNode);
@@ -186,33 +185,6 @@ class Configuration implements ConfigurationInterface
                                 ->arrayNode('validation_groups')
                                     ->prototype('scalar')->end()
                                     ->defaultValue(array('ResetPassword', 'Default'))
-                                ->end()
-                            ->end()
-                        ->end()
-                    ->end()
-                ->end()
-            ->end();
-    }
-
-    /**
-     * @param ArrayNodeDefinition $node
-     */
-    private function addChangePasswordSection(ArrayNodeDefinition $node)
-    {
-        $node
-            ->children()
-                ->arrayNode('change_password')
-                    ->addDefaultsIfNotSet()
-                    ->canBeUnset()
-                    ->children()
-                        ->arrayNode('form')
-                            ->addDefaultsIfNotSet()
-                            ->children()
-                                ->scalarNode('type')->defaultValue(Type\ChangePasswordFormType::class)->end()
-                                ->scalarNode('name')->defaultValue('fos_user_change_password_form')->end()
-                                ->arrayNode('validation_groups')
-                                    ->prototype('scalar')->end()
-                                    ->defaultValue(array('ChangePassword', 'Default'))
                                 ->end()
                             ->end()
                         ->end()

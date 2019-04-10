@@ -12,7 +12,6 @@ profile:
     flash:
         updated: 'The profile has been updated.'
 change_password:
-    submit: 'Change password'
     flash:
         success: 'The password has been changed.'
 registration:

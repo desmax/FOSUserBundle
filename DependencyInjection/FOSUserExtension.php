@@ -111,10 +111,6 @@ class FOSUserExtension extends Extension
             $this->loadRegistration($config['registration'], $container, $loader, $config['from_email']);
         }
 
-        if (!empty($config['change_password'])) {
-            $this->loadChangePassword($config['change_password'], $container, $loader);
-        }
-
         if (!empty($config['resetting'])) {
             $this->loadResetting($config['resetting'], $container, $loader, $config['from_email']);
         }
@@ -217,20 +213,6 @@ class FOSUserExtension extends Extension
         $this->remapParametersNamespaces($config, $container, array(
             'confirmation' => 'fos_user.registration.confirmation.%s',
             'form' => 'fos_user.registration.form.%s',
-        ));
-    }
-
-    /**
-     * @param array            $config
-     * @param ContainerBuilder $container
-     * @param XmlFileLoader    $loader
-     */
-    private function loadChangePassword(array $config, ContainerBuilder $container, XmlFileLoader $loader)
-    {
-        $loader->load('change_password.xml');
-
-        $this->remapParametersNamespaces($config, $container, array(
-            'form' => 'fos_user.change_password.form.%s',
         ));
     }
 

@@ -14,7 +14,6 @@ profile:
         updated: 'Profilen er blevet opdateret.'
 
 change_password:
-    submit: 'Skift adgangskode'
     flash:
         success: 'Adgangskoden er blevet opdateret.'
 

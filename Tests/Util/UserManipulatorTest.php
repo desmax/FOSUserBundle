@@ -266,65 +266,6 @@ class UserManipulatorTest extends TestCase
         $manipulator->demote($invalidEmail);
     }
 
-    public function testChangePasswordWithValidEmail()
-    {
-        $userManagerMock = $this->getMockBuilder('FOS\UserBundle\Model\UserManagerInterface')->getMock();
-
-        $user = new TestUser();
-        $email = 'test_email@email.org';
-        $password = 'test_password';
-        $oldpassword = 'old_password';
-
-        $user->setEmail($email);
-        $user->setPlainPassword($oldpassword);
-
-        $userManagerMock->expects($this->once())
-            ->method('findUserByEmail')
-            ->will($this->returnValue($user))
-            ->with($this->equalTo($email));
-
-        $userManagerMock->expects($this->once())
-            ->method('updateUser')
-            ->will($this->returnValue($user))
-            ->with($this->isInstanceOf('FOS\UserBundle\Tests\TestUser'));
-
-        $eventDispatcherMock = $this->getEventDispatcherMock(FOSUserEvents::USER_PASSWORD_CHANGED, true);
-
-        $requestStackMock = $this->getRequestStackMock(true);
-
-        $manipulator = new UserManipulator($userManagerMock, $eventDispatcherMock, $requestStackMock);
-        $manipulator->changePassword($email, $password);
-
-        $this->assertSame($email, $user->getEmail());
-        $this->assertSame($password, $user->getPlainPassword());
-    }
-
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testChangePasswordWithInvalidEmail()
-    {
-        $userManagerMock = $this->getMockBuilder('FOS\UserBundle\Model\UserManagerInterface')->getMock();
-
-        $invalidEmail = 'invalid_email';
-        $password = 'test_password';
-
-        $userManagerMock->expects($this->once())
-            ->method('findUserByEmail')
-            ->will($this->returnValue(null))
-            ->with($this->equalTo($invalidEmail));
-
-        $userManagerMock->expects($this->never())
-            ->method('updateUser');
-
-        $eventDispatcherMock = $this->getEventDispatcherMock(FOSUserEvents::USER_PASSWORD_CHANGED, false);
-
-        $requestStackMock = $this->getRequestStackMock(false);
-
-        $manipulator = new UserManipulator($userManagerMock, $eventDispatcherMock, $requestStackMock);
-        $manipulator->changePassword($invalidEmail, $password);
-    }
-
     public function testAddRole()
     {
         $userManagerMock = $this->getMockBuilder('FOS\UserBundle\Model\UserManagerInterface')->getMock();
