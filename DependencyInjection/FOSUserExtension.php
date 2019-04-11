@@ -163,7 +163,6 @@ class FOSUserExtension extends Extension
      */
     private function loadRegistration(array $config, ContainerBuilder $container, XmlFileLoader $loader, array $fromEmail)
     {
-        $loader->load('registration.xml');
         $this->sessionNeeded = true;
 
         if ($config['confirmation']['enabled']) {

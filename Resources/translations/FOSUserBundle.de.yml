@@ -1,14 +1,4 @@
-security:
-    login:
-        email: E-Mail-Adresse
-        password: Passwort
-        remember_me: 'An mich erinnern'
-        submit: Anmelden
 registration:
-    check_email: 'Eine E-Mail wurde an %email% gesendet. Sie enthält einen Link, den Sie anklicken müssen, um Ihr Benutzerkonto zu bestätigen.'
-    confirmed: 'Glückwunsch %email%, Ihr Benutzerkonto ist jetzt bestätigt.'
-    back: 'Zurück zur ursprünglichen Seite.'
-    submit: Registrieren
     email:
         subject: 'Willkommen!'
         message: |

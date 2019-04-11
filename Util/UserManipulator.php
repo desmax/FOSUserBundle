@@ -129,36 +129,6 @@ class UserManipulator
     }
 
     /**
-     * Promotes the given user.
-     *
-     * @param string $email
-     */
-    public function promote($email)
-    {
-        $user = $this->findUserByEmailOrThrowException($email);
-        $user->setSuperAdmin(true);
-        $this->userManager->updateUser($user);
-
-        $event = new UserEvent($user, $this->getRequest());
-        $this->dispatcher->dispatch(FOSUserEvents::USER_PROMOTED, $event);
-    }
-
-    /**
-     * Demotes the given user.
-     *
-     * @param string $email
-     */
-    public function demote($email)
-    {
-        $user = $this->findUserByEmailOrThrowException($email);
-        $user->setSuperAdmin(false);
-        $this->userManager->updateUser($user);
-
-        $event = new UserEvent($user, $this->getRequest());
-        $this->dispatcher->dispatch(FOSUserEvents::USER_DEMOTED, $event);
-    }
-
-    /**
      * Adds role to the given user.
      *
      * @param string $email

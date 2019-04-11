@@ -1,16 +1,4 @@
-security:
-    login:
-        email: E-mail
-        password: Adgangskode
-        remember_me: 'Husk mig'
-        submit: 'Log ind'
-
 registration:
-    check_email: |
-        En e-mail er blevet sendt til %email%. Den indeholder et aktiveringslink, du skal følge for at aktivere din konto.
-    confirmed: 'Tillykke, din konto er nu aktiveret'
-    back: 'Tilbage til foregående side.'
-    submit: Registrer
     email:
         subject: 'Velkommen!'
         message: |

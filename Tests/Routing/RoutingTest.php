@@ -31,9 +31,6 @@ class RoutingTest extends TestCase
         $loader = new XmlFileLoader($locator);
 
         $collection = new RouteCollection();
-        $subCollection = $loader->load(__DIR__.'/../../Resources/config/routing/registration.xml');
-        $subCollection->addPrefix('/register');
-        $collection->addCollection($subCollection);
         $subCollection = $loader->load(__DIR__.'/../../Resources/config/routing/resetting.xml');
         $subCollection->addPrefix('/resetting');
         $collection->addCollection($subCollection);
@@ -51,17 +48,11 @@ class RoutingTest extends TestCase
     public function loadRoutingProvider()
     {
         return array(
-            array('fos_user_registration_register', '/register/', array('GET', 'POST')),
-            array('fos_user_registration_check_email', '/register/check-email', array('GET')),
-            array('fos_user_registration_confirm', '/register/confirm/{token}', array('GET')),
-            array('fos_user_registration_confirmed', '/register/confirmed', array('GET')),
-
             array('fos_user_resetting_request', '/resetting/request', array('GET')),
             array('fos_user_resetting_send_email', '/resetting/send-email', array('POST')),
             array('fos_user_resetting_check_email', '/resetting/check-email', array('GET')),
             array('fos_user_resetting_reset', '/resetting/reset/{token}', array('GET', 'POST')),
 
-            array('fos_user_security_login', '/login', array('GET', 'POST')),
             array('fos_user_security_check', '/login_check', array('POST')),
             array('fos_user_security_logout', '/logout', array('GET', 'POST')),
         );

@@ -246,7 +246,6 @@ class FOSUserExtensionTest extends TestCase
     {
         $this->createEmptyConfiguration();
 
-        $this->assertHasDefinition('fos_user.registration.form.factory');
         $this->assertHasDefinition('fos_user.resetting.form.factory');
     }
 
@@ -254,7 +253,6 @@ class FOSUserExtensionTest extends TestCase
     {
         $this->createFullConfiguration();
 
-        $this->assertHasDefinition('fos_user.registration.form.factory');
         $this->assertHasDefinition('fos_user.resetting.form.factory');
     }
 

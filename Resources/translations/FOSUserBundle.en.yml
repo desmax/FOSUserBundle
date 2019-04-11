@@ -1,15 +1,4 @@
-security:
-    login:
-        email: Email
-        password: Password
-        remember_me: 'Remember me'
-        submit: 'Log in'
 registration:
-    check_email: |
-        An email has been sent to %email%. It contains an activation link you must click to activate your account.
-    confirmed: 'Congrats, your account is now activated.'
-    back: 'Back to the originating page.'
-    submit: Register
     email:
         subject: 'Welcome!'
         message: |
