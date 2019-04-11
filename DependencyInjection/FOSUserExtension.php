@@ -165,11 +165,6 @@ class FOSUserExtension extends Extension
     {
         $this->sessionNeeded = true;
 
-        if ($config['confirmation']['enabled']) {
-            $this->mailerNeeded = true;
-            $loader->load('email_confirmation.xml');
-        }
-
         if (isset($config['confirmation']['from_email'])) {
             // overwrite the global one
             $fromEmail = $config['confirmation']['from_email'];
@@ -192,7 +187,6 @@ class FOSUserExtension extends Extension
     private function loadResetting(array $config, ContainerBuilder $container, XmlFileLoader $loader, array $fromEmail)
     {
         $this->mailerNeeded = true;
-        $loader->load('resetting.xml');
 
         if (isset($config['email']['from_email'])) {
             // overwrite the global one

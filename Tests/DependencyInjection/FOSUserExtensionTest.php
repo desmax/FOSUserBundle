@@ -245,15 +245,11 @@ class FOSUserExtensionTest extends TestCase
     public function testUserLoadFormServiceWithDefaults()
     {
         $this->createEmptyConfiguration();
-
-        $this->assertHasDefinition('fos_user.resetting.form.factory');
     }
 
     public function testUserLoadFormService()
     {
         $this->createFullConfiguration();
-
-        $this->assertHasDefinition('fos_user.resetting.form.factory');
     }
 
     public function testUserLoadConfirmationEmailWithDefaults()
