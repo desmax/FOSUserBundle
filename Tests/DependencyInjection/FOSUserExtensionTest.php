@@ -221,25 +221,18 @@ class FOSUserExtensionTest extends TestCase
     public function testUserLoadFormClass()
     {
         $this->createFullConfiguration();
-
-        $this->assertParameter('acme_my_registration', 'fos_user.registration.form.type');
-        $this->assertParameter('acme_my_resetting', 'fos_user.resetting.form.type');
     }
 
     public function testUserLoadFormNameWithDefaults()
     {
         $this->createEmptyConfiguration();
 
-        $this->assertParameter('fos_user_registration_form', 'fos_user.registration.form.name');
-        $this->assertParameter('fos_user_resetting_form', 'fos_user.resetting.form.name');
     }
 
     public function testUserLoadFormName()
     {
         $this->createFullConfiguration();
 
-        $this->assertParameter('acme_registration_form', 'fos_user.registration.form.name');
-        $this->assertParameter('acme_resetting_form', 'fos_user.resetting.form.name');
     }
 
     public function testUserLoadFormServiceWithDefaults()
@@ -288,36 +281,6 @@ class FOSUserExtensionTest extends TestCase
         $this->createFullConfiguration();
 
         $this->assertAlias('acme_my.mailer', 'fos_user.mailer');
-    }
-
-    /**
-     * @dataProvider userManagerSetFactoryProvider
-     *
-     * @param $dbDriver
-     * @param $doctrineService
-     */
-    public function testUserManagerSetFactory($dbDriver, $doctrineService)
-    {
-        $this->configuration = new ContainerBuilder();
-        $loader = new FOSUserExtension();
-        $config = $this->getEmptyConfig();
-        $config['db_driver'] = $dbDriver;
-        $loader->load(array($config), $this->configuration);
-
-        $definition = $this->configuration->getDefinition('fos_user.object_manager');
-
-        $this->assertAlias($doctrineService, 'fos_user.doctrine_registry');
-
-        if (method_exists($definition, 'getFactory')) {
-            $factory = $definition->getFactory();
-
-            $this->assertInstanceOf('Symfony\Component\DependencyInjection\Reference', $factory[0]);
-            $this->assertSame('fos_user.doctrine_registry', (string) $factory[0]);
-            $this->assertSame('getManager', $factory[1]);
-        } else {
-            $this->assertSame('fos_user.doctrine_registry', $definition->getFactoryService());
-            $this->assertSame('getManager', $definition->getFactoryMethod());
-        }
     }
 
     /**
@@ -389,10 +352,6 @@ registration:
             sender_name: Acme Corp
         enabled: true
         template: AcmeMyBundle:Registration:mail.txt.twig
-    form:
-        type: acme_my_registration
-        name: acme_registration_form
-        validation_groups: [acme_registration]
 resetting:
     retry_ttl: 7200
     token_ttl: 86400
@@ -401,10 +360,6 @@ resetting:
             address: reset@acme.org
             sender_name: Acme Corp
         template: AcmeMyBundle:Resetting:mail.txt.twig
-    form:
-        type: acme_my_resetting
-        name: acme_resetting_form
-        validation_groups: [acme_resetting]
 service:
     mailer: acme_my.mailer
     user_manager: acme_my.user_manager

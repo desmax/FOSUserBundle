@@ -11,6 +11,7 @@
 
 namespace FOS\UserBundle\Tests\Security;
 
+use FOS\UserBundle\Model\UserInterface;
 use FOS\UserBundle\Security\UserChecker;
 use PHPUnit\Framework\TestCase;
 
@@ -29,7 +30,7 @@ class UserCheckerTest extends TestCase
 
     private function getUser($isEnabled)
     {
-        $userMock = $this->getMockBuilder('FOS\UserBundle\Model\User')->getMock();
+        $userMock = $this->getMockBuilder(UserInterface::class)->getMock();
         $userMock
             ->method('isEnabled')
             ->willReturn($isEnabled);

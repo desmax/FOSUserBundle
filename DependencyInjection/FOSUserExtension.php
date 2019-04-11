@@ -56,11 +56,6 @@ class FOSUserExtension extends Extension
             $container->setParameter($this->getAlias().'.backend_type_'.$config['db_driver'], true);
         }
 
-        if (isset(self::$doctrineDrivers[$config['db_driver']])) {
-            $definition = $container->getDefinition('fos_user.object_manager');
-            $definition->setFactory(array(new Reference('fos_user.doctrine_registry'), 'getManager'));
-        }
-
         foreach (array('security', 'util', 'mailer', 'listeners') as $basename) {
             $loader->load(sprintf('%s.xml', $basename));
         }

@@ -11,12 +11,10 @@
 
 namespace FOS\UserBundle;
 
-use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\DoctrineOrmMappingsPass;
 use FOS\UserBundle\DependencyInjection\Compiler\CheckForMailerPass;
 use FOS\UserBundle\DependencyInjection\Compiler\CheckForSessionPass;
 use FOS\UserBundle\DependencyInjection\Compiler\InjectRememberMeServicesPass;
 use FOS\UserBundle\DependencyInjection\Compiler\InjectUserCheckerPass;
-use FOS\UserBundle\DependencyInjection\Compiler\ValidationPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -32,26 +30,10 @@ class FOSUserBundle extends Bundle
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
-        $container->addCompilerPass(new ValidationPass());
         $container->addCompilerPass(new InjectUserCheckerPass());
         $container->addCompilerPass(new InjectRememberMeServicesPass());
         $container->addCompilerPass(new CheckForSessionPass());
         $container->addCompilerPass(new CheckForMailerPass());
 
-        $this->addRegisterMappingsPass($container);
-    }
-
-    /**
-     * @param ContainerBuilder $container
-     */
-    private function addRegisterMappingsPass(ContainerBuilder $container)
-    {
-        $mappings = array(
-            realpath(__DIR__.'/Resources/config/doctrine-mapping') => 'FOS\UserBundle\Model',
-        );
-
-        if (class_exists('Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\DoctrineOrmMappingsPass')) {
-            $container->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver($mappings, array('fos_user.model_manager_name'), 'fos_user.backend_type_orm'));
-        }
     }
 }
