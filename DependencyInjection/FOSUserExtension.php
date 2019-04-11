@@ -56,7 +56,7 @@ class FOSUserExtension extends Extension
             $container->setParameter($this->getAlias().'.backend_type_'.$config['db_driver'], true);
         }
 
-        foreach (array('security', 'util', 'mailer') as $basename) {
+        foreach (array('util', 'mailer') as $basename) {
             $loader->load(sprintf('%s.xml', $basename));
         }
 
@@ -82,11 +82,6 @@ class FOSUserExtension extends Extension
 
         if ($this->mailerNeeded) {
             $container->setAlias('fos_user.mailer', $config['service']['mailer']);
-        }
-
-        if ($this->sessionNeeded) {
-            // Use a private alias rather than a parameter, to avoid leaking it at runtime (the private alias will be removed)
-            $container->setAlias('fos_user.session', new Alias('session', false));
         }
     }
 
