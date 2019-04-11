@@ -16,9 +16,9 @@
 <!--            <argument>%fos_user.model_manager_name%</argument>-->
 <!--        </service>-->
 
-        <service id="fos_user.user_listener" class="FOS\UserBundle\Doctrine\UserListener" public="false">
-            <argument type="service" id="fos_user.util.password_updater" />
-        </service>
+<!--        <service id="fos_user.user_listener" class="FOS\UserBundle\Doctrine\UserListener" public="false">-->
+<!--            <argument type="service" id="fos_user.util.password_updater" />-->
+<!--        </service>-->
     </services>
 
 </container>

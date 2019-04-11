@@ -56,24 +56,12 @@ class FOSUserExtension extends Extension
             $container->setParameter($this->getAlias().'.backend_type_'.$config['db_driver'], true);
         }
 
-        foreach (array('security', 'util', 'mailer', 'listeners') as $basename) {
+        foreach (array('security', 'util', 'mailer') as $basename) {
             $loader->load(sprintf('%s.xml', $basename));
-        }
-
-        if (!$config['use_authentication_listener']) {
-            $container->removeDefinition('fos_user.listener.authentication');
         }
 
         $container->setAlias('fos_user.util.token_generator', $config['service']['token_generator']);
         $container->setAlias('fos_user.user_manager', new Alias($config['service']['user_manager'], true));
-
-        if ($config['use_listener'] && isset(self::$doctrineDrivers[$config['db_driver']])) {
-            $listenerDefinition = $container->getDefinition('fos_user.user_listener');
-            $listenerDefinition->addTag(self::$doctrineDrivers[$config['db_driver']]['tag']);
-            if (isset(self::$doctrineDrivers[$config['db_driver']]['listener_class'])) {
-                $listenerDefinition->setClass(self::$doctrineDrivers[$config['db_driver']]['listener_class']);
-            }
-        }
 
         $this->remapParametersNamespaces($config, $container, array(
             '' => array(

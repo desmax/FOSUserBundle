@@ -13,7 +13,6 @@ namespace FOS\UserBundle;
 
 use FOS\UserBundle\DependencyInjection\Compiler\CheckForMailerPass;
 use FOS\UserBundle\DependencyInjection\Compiler\CheckForSessionPass;
-use FOS\UserBundle\DependencyInjection\Compiler\InjectRememberMeServicesPass;
 use FOS\UserBundle\DependencyInjection\Compiler\InjectUserCheckerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -31,7 +30,6 @@ class FOSUserBundle extends Bundle
     {
         parent::build($container);
         $container->addCompilerPass(new InjectUserCheckerPass());
-        $container->addCompilerPass(new InjectRememberMeServicesPass());
         $container->addCompilerPass(new CheckForSessionPass());
         $container->addCompilerPass(new CheckForMailerPass());
 
