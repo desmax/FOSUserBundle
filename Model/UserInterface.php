@@ -31,13 +31,6 @@ interface FosUserInterface extends \Serializable
     public function getId();
 
     /**
-     * @param string|null $salt
-     *
-     * @return static
-     */
-    public function setSalt($salt);
-
-    /**
      * Gets email.
      *
      * @return string

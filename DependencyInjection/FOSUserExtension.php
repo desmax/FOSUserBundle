@@ -48,7 +48,6 @@ class FOSUserExtension extends Extension
 
         if ('custom' !== $config['db_driver']) {
             if (isset(self::$doctrineDrivers[$config['db_driver']])) {
-                $loader->load('doctrine.xml');
                 $container->setAlias('fos_user.doctrine_registry', new Alias(self::$doctrineDrivers[$config['db_driver']]['registry'], false));
             } else {
                 $loader->load(sprintf('%s.xml', $config['db_driver']));
@@ -56,7 +55,7 @@ class FOSUserExtension extends Extension
             $container->setParameter($this->getAlias().'.backend_type_'.$config['db_driver'], true);
         }
 
-        foreach (array('util', 'mailer') as $basename) {
+        foreach (array('mailer') as $basename) {
             $loader->load(sprintf('%s.xml', $basename));
         }
 
